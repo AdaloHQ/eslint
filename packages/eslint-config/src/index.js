@@ -1,6 +1,6 @@
 module.exports = {
   plugins: ["@adalo/eslint-plugin-axios"],
   rules: {
-    "no-axios-defaults": [2],
+    "@adalo/axios/no-axios-defaults": [2],
   },
 };
