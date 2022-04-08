@@ -14,22 +14,43 @@ function createRule(context: Rule.RuleContext): Rule.RuleListener {
   const axiosNodes: ESTreeNode[] = [];
 
   return {
+    CallExpression: (node) => {
+      if (node.callee.type !== "Identifier" || node.callee.name !== "require") {
+        return false;
+      }
+
+      // This is an instance of `require(<module>)`. Is <module> 'axios'?
+      const [modulePath] = node.arguments;
+      if (modulePath.type !== "Literal" || modulePath.value !== "axios") {
+        return false;
+      }
+
+      // This is an instance of `require('axios')`
+      // Is this part of an assignment?
+      if (node.parent.type !== "VariableDeclarator") {
+        return false;
+      }
+      const variableDeclarator = node.parent;
+      // Record imported instance of the axios module
+      axiosNodes.push(variableDeclarator.id);
+    },
+
     ImportDeclaration: (node) => {
       if (node.source.type !== "Literal") {
         // This should be unreachable - type is always "Literal"
-        return;
+        return false;
       }
 
       if (node.source.value !== "axios") {
         // This import is not axios
-        return;
+        return false;
       }
 
       // This is an import of axios
       for (const specifier of node.specifiers) {
         switch (specifier.type) {
           case "ImportDefaultSpecifier": {
-            // Record imported instance of th full axios object
+            // Record imported instance of the axios module
             axiosNodes.push(specifier);
 
             break;
@@ -60,7 +81,7 @@ function createRule(context: Rule.RuleContext): Rule.RuleListener {
         node.property.type !== "Identifier" ||
         node.property.name !== "defaults"
       ) {
-        return;
+        return false;
       }
 
       // This is <object>.defaults. Is <object> axios?

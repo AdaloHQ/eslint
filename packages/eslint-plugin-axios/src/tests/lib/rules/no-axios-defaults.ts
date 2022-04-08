@@ -50,5 +50,18 @@ ruleTester.run("no-axios-defaults", rule, {
         },
       ],
     },
+    {
+      code: `
+      const axios = require('axios')
+
+      axios.defaults.headers['User-Agent'] = 'MyBot 1.2'
+      `,
+      errors: [
+        {
+          message: "Unexpected defaults property access",
+          type: "Identifier",
+        },
+      ],
+    },
   ],
 });
