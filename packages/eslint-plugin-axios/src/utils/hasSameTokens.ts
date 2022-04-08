@@ -26,16 +26,16 @@
  * THE SOFTWARE.
  */
 
-import { SourceCode } from "eslint";
-import type { Node as ESTreeNode } from "estree";
+import { SourceCode } from 'eslint'
+import type { Node as ESTreeNode } from 'estree'
 
 export default function hasSameTokens(
   sourceCode: SourceCode,
   nodeA: ESTreeNode,
   nodeB: ESTreeNode
 ): boolean {
-  const tokensA = sourceCode.getTokens(nodeA);
-  const tokensB = sourceCode.getTokens(nodeB);
+  const tokensA = sourceCode.getTokens(nodeA)
+  const tokensB = sourceCode.getTokens(nodeB)
 
   return (
     tokensA.length === tokensB.length &&
@@ -44,5 +44,5 @@ export default function hasSameTokens(
         token.type === tokensB[index].type &&
         token.value === tokensB[index].value
     )
-  );
+  )
 }

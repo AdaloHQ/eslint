@@ -1,15 +1,15 @@
-import rule from "../../../lib/rules/no-defaults";
+import rule from '../../../lib/rules/no-defaults'
 
-import { RuleTester } from "eslint";
+import { RuleTester } from 'eslint'
 
 const ruleTester = new RuleTester({
   parserOptions: {
     ecmaVersion: 7,
-    sourceType: "module",
+    sourceType: 'module',
   },
-});
+})
 
-ruleTester.run("no-axios-defaults", rule, {
+ruleTester.run('no-axios-defaults', rule, {
   valid: [
     {
       code: `
@@ -43,8 +43,8 @@ ruleTester.run("no-axios-defaults", rule, {
       `,
       errors: [
         {
-          message: "Cannot import defaults from the axios library.",
-          type: "ImportSpecifier",
+          message: 'Cannot import defaults from the axios library.',
+          type: 'ImportSpecifier',
         },
       ],
     },
@@ -56,8 +56,8 @@ ruleTester.run("no-axios-defaults", rule, {
       `,
       errors: [
         {
-          message: "Unexpected defaults property access",
-          type: "Identifier",
+          message: 'Unexpected defaults property access',
+          type: 'Identifier',
         },
       ],
     },
@@ -66,8 +66,8 @@ ruleTester.run("no-axios-defaults", rule, {
 axios.defaults.headers['User-Agent'] = 'MyBot 1.2'`,
       errors: [
         {
-          message: "Unexpected defaults property access",
-          type: "Identifier",
+          message: 'Unexpected defaults property access',
+          type: 'Identifier',
           line: 2,
           column: 7,
         },
@@ -78,8 +78,8 @@ axios.defaults.headers['User-Agent'] = 'MyBot 1.2'`,
 axios['defaults'].headers['User-Agent'] = 'MyBot 1.2'`,
       errors: [
         {
-          message: "Unexpected defaults property access",
-          type: "Literal",
+          message: 'Unexpected defaults property access',
+          type: 'Literal',
           line: 2,
           column: 7,
         },
@@ -91,8 +91,8 @@ axios['defaults'].headers['User-Agent'] = 'MyBot 1.2'`,
       `,
       errors: [
         {
-          message: "Unexpected defaults property access",
-          type: "Identifier",
+          message: 'Unexpected defaults property access',
+          type: 'Identifier',
         },
       ],
     },
@@ -102,10 +102,10 @@ axios['defaults'].headers['User-Agent'] = 'MyBot 1.2'`,
       `,
       errors: [
         {
-          message: "Unexpected defaults property access",
-          type: "Literal",
+          message: 'Unexpected defaults property access',
+          type: 'Literal',
         },
       ],
     },
   ],
-});
+})

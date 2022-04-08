@@ -1,2 +1,2 @@
-import hasSameTokens from "./hasSameTokens";
-export default { hasSameTokens };
+import hasSameTokens from './hasSameTokens'
+export default { hasSameTokens }

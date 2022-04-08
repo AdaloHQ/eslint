@@ -1,0 +1,7 @@
+# Unsupported filetypes
+.*ignore
+*.lock
+*.log
+
+# Build output
+/packages/*/dist

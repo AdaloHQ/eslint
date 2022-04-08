@@ -1,82 +1,82 @@
-import type { Rule } from "eslint";
-import type { Node as ESTreeNode, MemberExpression } from "estree";
-import utils from "../../utils";
+import type { Rule } from 'eslint'
+import type { Node as ESTreeNode, MemberExpression } from 'estree'
+import utils from '../../utils'
 
-const ERROR_NO_IMPORT = "Cannot import defaults from the axios library.";
-const ERROR_NO_ACCESS = "Unexpected defaults property access";
+const ERROR_NO_IMPORT = 'Cannot import defaults from the axios library.'
+const ERROR_NO_ACCESS = 'Unexpected defaults property access'
 
 function isPropertyAccessed(
   { property }: MemberExpression,
   propertyName: string
 ) {
   switch (property.type) {
-    case "Identifier": {
+    case 'Identifier': {
       // Example: `axios.defaults`
-      return property.name === propertyName;
+      return property.name === propertyName
     }
-    case "Literal": {
+    case 'Literal': {
       // Example: `axios['defaults']`
-      return property.value === propertyName;
+      return property.value === propertyName
     }
     default: {
       // This won't detect any other form (including access to numeric indexes)
-      return false;
+      return false
     }
   }
 }
 
 function createRule(context: Rule.RuleContext): Rule.RuleListener {
-  const sourceCode = context.getSourceCode();
+  const sourceCode = context.getSourceCode()
 
   const hasSameTokens = (a: ESTreeNode, b: ESTreeNode) =>
-    utils.hasSameTokens(sourceCode, a, b);
+    utils.hasSameTokens(sourceCode, a, b)
 
-  const axiosNodes: ESTreeNode[] = [];
+  const axiosNodes: ESTreeNode[] = []
 
   return {
-    CallExpression: (node) => {
-      if (node.callee.type !== "Identifier" || node.callee.name !== "require") {
-        return false;
+    CallExpression: node => {
+      if (node.callee.type !== 'Identifier' || node.callee.name !== 'require') {
+        return false
       }
 
       // This is an instance of `require(<module>)`. Is <module> 'axios'?
-      const [modulePath] = node.arguments;
+      const [modulePath] = node.arguments
       if (
         !modulePath ||
-        modulePath.type !== "Literal" ||
-        modulePath.value !== "axios"
+        modulePath.type !== 'Literal' ||
+        modulePath.value !== 'axios'
       ) {
-        return false;
+        return false
       }
 
       // This is an instance of `require('axios')`
       // How is this being used?
       switch (node.parent.type) {
-        case "VariableDeclarator": {
+        case 'VariableDeclarator': {
           // This is the left side of an assignment
           // Example: `axios = require('axios')
-          if (node.parent.type !== "VariableDeclarator") {
-            return false;
+          if (node.parent.type !== 'VariableDeclarator') {
+            return false
           }
-          const variableDeclarator = node.parent;
+          const variableDeclarator = node.parent
           // Record imported instance of the axios module
-          axiosNodes.push(variableDeclarator.id);
-          break;
+          axiosNodes.push(variableDeclarator.id)
+          break
         }
-        case "MemberExpression": {
+        case 'MemberExpression': {
           // This is a direct member access
           // Example: `require('axios').defaults`
-          if (!isPropertyAccessed(node.parent, "defaults")) {
-            return false;
+          if (!isPropertyAccessed(node.parent, 'defaults')) {
+            return false
           }
 
           // This is an attempt to access `require('axios').defaults`.
           return context.report({
             node: node.parent.property,
             message: ERROR_NO_ACCESS,
-          });
+          })
 
-          break;
+          break
         }
         default: {
           // TODO(toby): Handle more obscure cases as they come up
@@ -84,57 +84,57 @@ function createRule(context: Rule.RuleContext): Rule.RuleListener {
       }
     },
 
-    ImportDeclaration: (node) => {
-      if (node.source.type !== "Literal") {
+    ImportDeclaration: node => {
+      if (node.source.type !== 'Literal') {
         // This should be unreachable - type is always "Literal"
-        return false;
+        return false
       }
 
-      if (node.source.value !== "axios") {
+      if (node.source.value !== 'axios') {
         // This import is not axios
-        return false;
+        return false
       }
 
       // This is an import of axios
       for (const specifier of node.specifiers) {
         switch (specifier.type) {
-          case "ImportDefaultSpecifier": {
+          case 'ImportDefaultSpecifier': {
             // Record imported instance of the axios module
-            axiosNodes.push(specifier);
+            axiosNodes.push(specifier)
 
-            break;
+            break
           }
-          case "ImportSpecifier": {
+          case 'ImportSpecifier': {
             // Examples:
             // 1. `import { defaults } from 'axios'`
             // 2. `import { defaults as axiosDefaults } from 'axios'`
-            if (specifier.imported.name === "defaults") {
+            if (specifier.imported.name === 'defaults') {
               return context.report({
                 node: specifier,
                 message: ERROR_NO_IMPORT,
-              });
+              })
             }
 
-            break;
+            break
           }
-          case "ImportNamespaceSpecifier": {
+          case 'ImportNamespaceSpecifier': {
             // TODO(toby): Handle Case
-            break;
+            break
           }
         }
       }
     },
 
-    MemberExpression: (node) => {
-      if (!isPropertyAccessed(node, "defaults")) {
-        return false;
+    MemberExpression: node => {
+      if (!isPropertyAccessed(node, 'defaults')) {
+        return false
       }
 
       // This is <object>.defaults. Is <object> axios?
       switch (node.object.type) {
-        case "Identifier": {
+        case 'Identifier': {
           if (axiosNodes.length === 0) {
-            return false;
+            return false
           }
 
           for (const axiosNode of axiosNodes) {
@@ -142,25 +142,25 @@ function createRule(context: Rule.RuleContext): Rule.RuleListener {
               return context.report({
                 node: node.property,
                 message: ERROR_NO_ACCESS,
-              });
+              })
             }
           }
 
-          return false;
+          return false
         }
         default: {
           // TODO(toby): Handle other object types
-          return false;
+          return false
         }
       }
     },
-  };
+  }
 }
 
 export default {
   meta: {
-    type: "problem",
+    type: 'problem',
     schema: [],
   },
   create: createRule,
-} as const;
+} as const
