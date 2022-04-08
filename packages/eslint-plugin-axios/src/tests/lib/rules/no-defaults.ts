@@ -1,4 +1,4 @@
-import rule from "../../../lib/rules/no-axios-defaults";
+import rule from "../../../lib/rules/no-defaults";
 
 import { RuleTester } from "eslint";
 

@@ -8,7 +8,7 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import { default as noAxiosDefaults } from "./rules/no-axios-defaults";
+import { default as noDefaults } from "./rules/no-defaults";
 
 //------------------------------------------------------------------------------
 // Plugin Definition
@@ -16,5 +16,5 @@ import { default as noAxiosDefaults } from "./rules/no-axios-defaults";
 
 // import all rules in lib/rules
 export const rules = {
-  "no-axios-defaults": noAxiosDefaults,
+  "no-defaults": noDefaults,
 };

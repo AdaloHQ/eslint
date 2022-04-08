@@ -31,7 +31,7 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
   "rules": {
-    "axios/no-axios-defaults": 2
+    "@adalo/axios/no-defaults": 2
   }
 }
 ```
@@ -40,6 +40,6 @@ Then configure the rules you want to use under the rules section.
 
 **Key**: :wrench: = fixable
 
-| Name                | Description                       | :wrench: |
-| ------------------- | --------------------------------- | -------- |
-| `no-axios-defaults` | Disallows use of `axios.defaults` |          |
+| Name                       | Description                       | :wrench: |
+| -------------------------- | --------------------------------- | -------- |
+| `@adalo/axios/no-defaults` | Disallows use of `axios.defaults` |          |
