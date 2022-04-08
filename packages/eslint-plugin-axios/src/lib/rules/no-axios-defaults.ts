@@ -1,9 +1,29 @@
 import type { Rule } from "eslint";
-import type { Node as ESTreeNode } from "estree";
+import type { Node as ESTreeNode, MemberExpression } from "estree";
 import utils from "../../utils";
 
 const ERROR_NO_IMPORT = "Cannot import defaults from the axios library.";
 const ERROR_NO_ACCESS = "Unexpected defaults property access";
+
+function isPropertyAccessed(
+  { property }: MemberExpression,
+  propertyName: string
+) {
+  switch (property.type) {
+    case "Identifier": {
+      // Example: `axios.defaults`
+      return property.name === propertyName;
+    }
+    case "Literal": {
+      // Example: `axios['defaults']`
+      return property.value === propertyName;
+    }
+    default: {
+      // This won't detect any other form (including access to numeric indexes)
+      return false;
+    }
+  }
+}
 
 function createRule(context: Rule.RuleContext): Rule.RuleListener {
   const sourceCode = context.getSourceCode();
@@ -26,13 +46,38 @@ function createRule(context: Rule.RuleContext): Rule.RuleListener {
       }
 
       // This is an instance of `require('axios')`
-      // Is this part of an assignment?
-      if (node.parent.type !== "VariableDeclarator") {
-        return false;
+      // How is this being used?
+      switch (node.parent.type) {
+        case "VariableDeclarator": {
+          // This is the left side of an assignment
+          // Example: `axios = require('axios')
+          if (node.parent.type !== "VariableDeclarator") {
+            return false;
+          }
+          const variableDeclarator = node.parent;
+          // Record imported instance of the axios module
+          axiosNodes.push(variableDeclarator.id);
+          break;
+        }
+        case "MemberExpression": {
+          // This is a direct member access
+          // Example: `require('axios').defaults`
+          if (!isPropertyAccessed(node.parent, "defaults")) {
+            return false;
+          }
+
+          // This is an attempt to access `require('axios').defaults`.
+          return context.report({
+            node: node.parent.property,
+            message: ERROR_NO_ACCESS,
+          });
+
+          break;
+        }
+        default: {
+          // TODO(toby): Handle more obscure cases as they come up
+        }
       }
-      const variableDeclarator = node.parent;
-      // Record imported instance of the axios module
-      axiosNodes.push(variableDeclarator.id);
     },
 
     ImportDeclaration: (node) => {
@@ -77,10 +122,7 @@ function createRule(context: Rule.RuleContext): Rule.RuleListener {
     },
 
     MemberExpression: (node) => {
-      if (
-        node.property.type !== "Identifier" ||
-        node.property.name !== "defaults"
-      ) {
+      if (!isPropertyAccessed(node, "defaults")) {
         return false;
       }
 
