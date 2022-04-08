@@ -1,0 +1,25 @@
+{
+  "name": "@adalo/eslint-config",
+  "version": "0.0.1",
+  "description": "Adalo's ESLint config",
+  "keywords": [
+    "eslint",
+    "eslintconfig",
+    "eslint-config"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdaloHQ/eslint.git"
+  },
+  "author": "Toby Sullivan <toby.sullivan@adalo.com>",
+  "main": "src/index.js",
+  "devDependencies": {
+    "@types/eslint": "8.4.1",
+    "eslint": "8.12.0",
+    "typescript": "4.6.3"
+  },
+  "peerDependencies": {
+    "eslint": ">= 8"
+  },
+  "license": "MIT"
+}
