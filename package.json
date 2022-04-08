@@ -1,0 +1,10 @@
+{
+  "name": "@adalo/eslint",
+  "repository": "https://github.com/AdaloHQ/eslint",
+  "author": "Toby Sullivan <toby.sullivan@adalo.com>",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
