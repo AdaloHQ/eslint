@@ -7,8 +7,12 @@
     "eslintplugin",
     "eslint-plugin"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AdaloHQ/eslint.git"
+  },
   "author": "Toby Sullivan <toby.sullivan@adalo.com>",
-  "main": "src/lib/index.js",
+  "main": "dist/lib/index.js",
   "scripts": {
     "build": "tsc --rootDir src --outDir dist",
     "lint": "eslint -ext .js,.ts src",

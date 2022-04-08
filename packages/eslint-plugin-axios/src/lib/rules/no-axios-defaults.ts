@@ -1,5 +1,6 @@
 import type { Rule } from "eslint";
 import type { Node as ESTreeNode } from "estree";
+import utils from "../../utils";
 
 const ERROR_NO_IMPORT = "Cannot import defaults from the axios library.";
 const ERROR_NO_ACCESS = "Unexpected defaults property access";
@@ -7,22 +8,8 @@ const ERROR_NO_ACCESS = "Unexpected defaults property access";
 function createRule(context: Rule.RuleContext): Rule.RuleListener {
   const sourceCode = context.getSourceCode();
 
-  /**
-   * Copied from: https://github.com/eslint/eslint/blob/bb4c0d530a231a8a14ed70ad61c06e284bbaaef0/lib/rules/no-self-compare.js#L34-L46
-   */
-  function hasSameTokens(nodeA: ESTreeNode, nodeB: ESTreeNode): boolean {
-    const tokensA = sourceCode.getTokens(nodeA);
-    const tokensB = sourceCode.getTokens(nodeB);
-
-    return (
-      tokensA.length === tokensB.length &&
-      tokensA.every(
-        (token, index) =>
-          token.type === tokensB[index].type &&
-          token.value === tokensB[index].value
-      )
-    );
-  }
+  const hasSameTokens = (a: ESTreeNode, b: ESTreeNode) =>
+    utils.hasSameTokens(sourceCode, a, b);
 
   const axiosNodes: ESTreeNode[] = [];
 
