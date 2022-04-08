@@ -8,11 +8,13 @@
 // Requirements
 //------------------------------------------------------------------------------
 
-import requireIndex from "requireindex";
+import { default as noAxiosDefaults } from "./rules/no-axios-defaults";
 
 //------------------------------------------------------------------------------
 // Plugin Definition
 //------------------------------------------------------------------------------
 
 // import all rules in lib/rules
-export const rules = requireIndex(__dirname + "/rules");
+export const rules = {
+  "no-axios-defaults": noAxiosDefaults,
+};
