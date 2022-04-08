@@ -1,0 +1,10 @@
+# Adalo ESLint
+
+Monorepo for Adala's ESLint configuration
+
+## Packages
+
+- `@adalo/eslint-config`
+  - Our standard configuration for all repositories. (at least that's the plan - it currently only contains one repository)
+- `@adalo/eslint-plugin-axios`
+  - Rules related to our use of [`axios`](https://github.com/axios/axios).

@@ -1,6 +1,6 @@
-# eslint-plugin-axios
+# @adalo/eslint-plugin-axios
 
-Rules for using axios
+Rules for working safely with [`axios`](https://github.com/axios/axios)
 
 ## Installation
 
