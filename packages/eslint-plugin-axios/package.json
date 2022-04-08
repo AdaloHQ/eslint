@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-axios",
+  "name": "@adalo/eslint-plugin-axios",
   "version": "0.0.0",
   "description": "Rules for using axios",
   "keywords": [
