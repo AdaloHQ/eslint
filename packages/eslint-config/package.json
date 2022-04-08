@@ -12,7 +12,10 @@
     "url": "git+https://github.com/AdaloHQ/eslint.git"
   },
   "author": "Toby Sullivan <toby.sullivan@adalo.com>",
-  "main": "src/index.js",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc --rootDir src --outDir dist"
+  },
   "devDependencies": {
     "@types/eslint": "8.4.1",
     "eslint": "8.12.0",
