@@ -41,7 +41,11 @@ function createRule(context: Rule.RuleContext): Rule.RuleListener {
 
       // This is an instance of `require(<module>)`. Is <module> 'axios'?
       const [modulePath] = node.arguments;
-      if (modulePath.type !== "Literal" || modulePath.value !== "axios") {
+      if (
+        !modulePath ||
+        modulePath.type !== "Literal" ||
+        modulePath.value !== "axios"
+      ) {
         return false;
       }
 
@@ -136,7 +140,7 @@ function createRule(context: Rule.RuleContext): Rule.RuleListener {
           for (const axiosNode of axiosNodes) {
             if (hasSameTokens(axiosNode, node.object)) {
               return context.report({
-                node: node.object,
+                node: node.property,
                 message: ERROR_NO_ACCESS,
               });
             }
