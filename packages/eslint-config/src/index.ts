@@ -1,6 +1,5 @@
-export default {
-  plugins: ['@adalo/eslint-plugin-axios'],
-  rules: {
-    '@adalo/axios/no-defaults': [2],
-  },
+export const plugins = ['@adalo/eslint-plugin-axios']
+
+export const rules = {
+  '@adalo/axios/no-defaults': [2],
 }
