@@ -30,6 +30,8 @@ jobs:
   eslint:
     name: 'Check ESLint Rules'
 
+    runs-on: ubuntu-latest
+
     steps:
       - name: Check out repo
         uses: actions/checkout@v2
