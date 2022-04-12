@@ -25,5 +25,5 @@
   "peerDependencies": {
     "eslint": ">= 5"
   },
-  "license": "MIT"
+  "license": "UNLICENSED"
 }
