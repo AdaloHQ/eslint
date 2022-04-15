@@ -2,6 +2,7 @@
   "name": "@adalo/eslint-config",
   "version": "0.0.0",
   "description": "Adalo's ESLint config",
+  "license": "MIT",
   "keywords": [
     "eslint",
     "eslintconfig",
@@ -16,6 +17,9 @@
   "scripts": {
     "build": "tsc"
   },
+  "dependencies": {
+    "@adalo/eslint-plugin-axios": "0.0.0"
+  },
   "devDependencies": {
     "@types/eslint": "8.4.1",
     "eslint": "*",
@@ -24,6 +28,5 @@
   },
   "peerDependencies": {
     "eslint": ">= 5"
-  },
-  "license": "MIT"
+  }
 }
