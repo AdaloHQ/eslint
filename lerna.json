@@ -4,7 +4,7 @@
   "command": {
     "publish": {
       "ignoreChanges": ["**/README.md", "**/__tests__/**"],
-      "message": "chore(release): publish %s [skip publish]"
+      "message": "chore(release): publish %s [skip release]"
     }
   },
   "packages": ["packages/*"]

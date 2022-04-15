@@ -69,12 +69,12 @@ jobs:
       - name: Run tests
         run: yarn test:eslint-plugin-axios
 
-  update-versions:
-    name: 'Publish to NPM'
+  release-version:
+    name: 'Release new version to NPM'
 
     needs: ['prettier', 'eslint', 'test-eslint-plugin-axios']
 
-    if: "github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'skip publish')"
+    if: "github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'skip release')"
 
     runs-on: ubuntu-latest
 
