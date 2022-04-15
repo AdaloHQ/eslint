@@ -6,3 +6,8 @@ LICENSE
 
 # Build output
 /packages/*/dist
+
+# Tooling output
+*.tsbuildinfo
+CHANGELOG.md
+/lerna.json
