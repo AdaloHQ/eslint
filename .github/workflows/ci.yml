@@ -85,6 +85,9 @@ jobs:
           # Token with higher permissions is required for lerna to push versions
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # Sets the github action user as the author of the version commits
+      - uses: fregante/setup-git-user@v1
+
       # Fetch all history for all tags and branches in this job because lerna needs it
       - run: |
           git fetch --prune --unshallow
