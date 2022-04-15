@@ -82,6 +82,8 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: main
+          # Token with higher permissions is required for lerna to push versions
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       # Fetch all history for all tags and branches in this job because lerna needs it
       - run: |
