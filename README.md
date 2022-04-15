@@ -1,6 +1,6 @@
 # Adalo ESLint
 
-Monorepo for Adala's ESLint configuration
+Monorepo for Adalo's ESLint configuration
 
 ## Packages
 
