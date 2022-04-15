@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "outDir": "dist"
+  },
+  "files": [],
+  "references": [
+    {
+      "path": "./packages/eslint-config/tsconfig.composite.json"
+    },
+    {
+      "path": "./packages/eslint-plugin-axios/tsconfig.composite.json"
+    }
+  ]
+}

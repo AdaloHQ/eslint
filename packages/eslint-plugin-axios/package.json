@@ -14,7 +14,7 @@
   "author": "Toby Sullivan <toby.sullivan@adalo.com>",
   "main": "dist/lib/index.js",
   "scripts": {
-    "build": "tsc --rootDir src --outDir dist",
+    "build": "tsc",
     "lint": "eslint --ext .js,.ts src",
     "test": "ts-mocha src/tests/**/*.ts"
   },

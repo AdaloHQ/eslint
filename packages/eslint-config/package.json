@@ -14,7 +14,7 @@
   "author": "Toby Sullivan <toby.sullivan@adalo.com>",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc --rootDir src --outDir dist"
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/eslint": "8.4.1",

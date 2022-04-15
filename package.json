@@ -8,9 +8,8 @@
     "packages/*"
   ],
   "scripts": {
-    "build:eslint-config": "cd packages/eslint-config && yarn build",
-    "build:eslint-plugin-axios": "cd packages/eslint-plugin-axios && yarn build",
-    "build:all": "yarn build:eslint-config && yarn build:eslint-plugin-axios",
+    "build": "tsc --build",
+    "clean": "tsc --build --clean",
     "test:eslint-plugin-axios": "cd packages/eslint-plugin-axios && yarn test",
     "prettier": "prettier --write './**'",
     "prettier:check": "prettier --check './**'",
