@@ -105,6 +105,8 @@ jobs:
       # Version increments follow the Conventional Commits specification.
       # See: https://www.conventionalcommits.org/en/v1.0.0/
       - name: Release new version and publish to NPM
-        run: npx lerna publish --conventional-commits --exact --yes
+        # --no-verify-access is needed because lerna does not correctly handle NPM automation tokens for the verification step.
+        # See: https://github.com/lerna/lerna/issues/2788#issuecomment-776726711
+        run: npx lerna publish --conventional-commits --exact --no-verify-access --yes
         env:
           NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
