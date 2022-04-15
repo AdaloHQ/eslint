@@ -104,4 +104,5 @@ jobs:
       # Creates the new version and pushes to github
       - name: Release new version and publish to NPM
         run: npx lerna publish --conventional-commits --exact --yes
+        env:
           NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
