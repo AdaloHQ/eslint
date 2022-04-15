@@ -102,10 +102,6 @@ jobs:
         run: yarn install --frozen-lockfile
 
       # Creates the new version and pushes to github
-      - name: Update Versions
-        run: npx lerna version --conventional-commits --exact --yes
-
-      - name: Publish to NPM
-        run: npx lerna publish --yes
-        env:
+      - name: Release new version and publish to NPM
+        run: npx lerna publish --conventional-commits --exact --yes
           NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
