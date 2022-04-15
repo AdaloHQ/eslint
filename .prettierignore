@@ -9,5 +9,7 @@ LICENSE
 
 # Tooling output
 *.tsbuildinfo
+
+# Generated code
 CHANGELOG.md
 /lerna.json
