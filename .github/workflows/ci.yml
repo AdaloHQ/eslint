@@ -101,11 +101,10 @@ jobs:
       - name: Installing dependencies
         run: yarn install --frozen-lockfile
 
-      # Creates the new version and pushes to github
-      - name: Update Versions
-        run: npx lerna version --conventional-commits --exact --yes
-
-      - name: Publish to NPM
-        run: npx lerna publish --yes
+      # Increments package versions based on commits since the last release and publishes the new version to github.
+      # Version increments follow the Conventional Commits specification.
+      # See: https://www.conventionalcommits.org/en/v1.0.0/
+      - name: Release new version and publish to NPM
+        run: npx lerna publish --conventional-commits --exact --yes
         env:
           NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
