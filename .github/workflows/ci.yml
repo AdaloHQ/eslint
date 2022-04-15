@@ -101,7 +101,7 @@ jobs:
       - name: Installing dependencies
         run: yarn install --frozen-lockfile
 
-      # Creates the new version and pushes to github
+      # Creates the new version and publishes to github
       - name: Release new version and publish to NPM
         run: npx lerna publish --conventional-commits --exact --yes
         env:
