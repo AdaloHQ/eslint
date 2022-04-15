@@ -1,0 +1,7 @@
+*.tsbuildinfo
+*.log
+
+.gitignore
+
+/node_modules
+/tsconfig.composite.json
