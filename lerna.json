@@ -1,11 +1,16 @@
 {
-  "version": "0.0.0",
+  "version": "0.0.1",
   "npmClient": "yarn",
   "command": {
     "publish": {
-      "ignoreChanges": ["**/README.md", "**/__tests__/**"],
+      "ignoreChanges": [
+        "**/README.md",
+        "**/__tests__/**"
+      ],
       "message": "chore(release): publish %s [skip release]"
     }
   },
-  "packages": ["packages/*"]
+  "packages": [
+    "packages/*"
+  ]
 }
