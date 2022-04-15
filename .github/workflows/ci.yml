@@ -9,9 +9,7 @@ on:
 jobs:
   prettier:
     name: 'Check Prettier Styles'
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out repo
         uses: actions/checkout@v3
@@ -30,9 +28,7 @@ jobs:
 
   eslint:
     name: 'Check ESLint Rules'
-
     runs-on: ubuntu-latest
-
     steps:
       - name: Check out repo
         uses: actions/checkout@v3
@@ -51,9 +47,7 @@ jobs:
 
   test-eslint-plugin-axios:
     name: 'Run tests for @adalo/eslint-plugin-axios'
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
 
@@ -69,15 +63,29 @@ jobs:
       - name: Run tests
         run: yarn test:eslint-plugin-axios
 
+  test-build:
+    name: 'Test builds'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'yarn'
+
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run build
+        run: yarn build
+
   release-version:
     name: 'Release new version to NPM'
-
-    needs: ['prettier', 'eslint', 'test-eslint-plugin-axios']
-
+    needs: ['prettier', 'eslint', 'test-eslint-plugin-axios', 'test-build']
     if: "github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'skip release')"
-
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v3
         with:
@@ -105,6 +113,9 @@ jobs:
 
       - name: Installing dependencies
         run: yarn install --frozen-lockfile
+
+      - name: Build packages
+        run: yarn build
 
       # Increments package versions based on commits since the last release and publishes the new version to github.
       # Version increments follow the Conventional Commits specification.
