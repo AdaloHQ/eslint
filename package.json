@@ -13,8 +13,8 @@
     "test:eslint-plugin-axios": "cd packages/eslint-plugin-axios && yarn test",
     "prettier": "prettier --write './**'",
     "prettier:check": "prettier --check './**'",
-    "lint": "eslint --fix --ext .js,.ts packages/**",
-    "lint:check": "eslint --ext .js,.ts packages/**"
+    "lint": "eslint --fix --ext .js,.ts",
+    "lint:check": "eslint --ext .js,.ts"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "5.18.0",
