@@ -10,5 +10,5 @@
     "strict": true,
     "skipLibCheck": true
   },
-  "exclude": ["src/tests/**/*"]
+  "exclude": ["src/__tests__/**/*"]
 }

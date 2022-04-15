@@ -16,7 +16,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint --ext .js,.ts src",
-    "test": "ts-mocha src/tests/**/*.ts"
+    "test": "ts-mocha src/__tests__/**/*.ts"
   },
   "dependencies": {},
   "devDependencies": {

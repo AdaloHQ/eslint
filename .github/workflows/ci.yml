@@ -1,0 +1,125 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  prettier:
+    name: 'Check Prettier Styles'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'yarn'
+
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run Prettier checks
+        run: yarn prettier:check
+
+  eslint:
+    name: 'Check ESLint Rules'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'yarn'
+
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run ESLint checks
+        run: yarn lint:check
+
+  test-eslint-plugin-axios:
+    name: 'Run tests for @adalo/eslint-plugin-axios'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'yarn'
+
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Run tests
+        run: yarn test:eslint-plugin-axios
+
+  update-versions:
+    name: 'Update package versions'
+
+    needs: ['prettier', 'eslint', 'test-eslint-plugin-axios']
+
+    if: "github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'skip ci')"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'yarn'
+
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      # Creates the new version and pushes to github
+      - name: Update Versions
+        run: npx lerna version --conventional-commits --exact --yes
+
+  publish:
+    name: 'Publish to NPM'
+
+    needs: ['update-versions']
+
+    if: "github.ref == 'refs/heads/main' && !contains(github.event.head_commit.message, 'skip ci')"
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 14
+          cache: 'yarn'
+
+      - name: Installing dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Publish to NPM
+        run: npx lerna publish --yes
+        env:
+          NPM_AUTH_TOKEN: ${{secrets.NPM_AUTH_TOKEN}}
