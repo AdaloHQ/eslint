@@ -10,7 +10,9 @@
   "scripts": {
     "build": "tsc --build",
     "clean": "tsc --build --clean",
+    "test:eslint-plugin": "cd packages/eslint-plugin && yarn test",
     "test:eslint-plugin-axios": "cd packages/eslint-plugin-axios && yarn test",
+    "test": "yarn test:eslint-plugin && yarn test:eslint-plugin-axios",
     "prettier": "prettier --write './**'",
     "prettier:check": "prettier --check './**'",
     "lint": "eslint --fix --ext .js,.ts",
